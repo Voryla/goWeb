@@ -11,6 +11,7 @@ func GoWebRunTemplate() {
 	router := httprouter.New()
 	router.GET("/helloTemplate", helloTemplate)
 	router.GET("/stringTemplate", stringTemplate)
+	//router.GET("/chooseTemplate", chooseTemplate)
 	server := http.Server{Addr: "0.0.0.0:8080", Handler: router}
 	server.ListenAndServe()
 }
@@ -27,6 +28,7 @@ func helloTemplate(w http.ResponseWriter, r *http.Request, params httprouter.Par
 	}
 }
 
+// stringTemplate 解析String模板
 func stringTemplate(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
 	temp := `<!DOCTYPE html>
 			<html lang="en">
@@ -41,4 +43,10 @@ func stringTemplate(w http.ResponseWriter, r *http.Request, params httprouter.Pa
 	te := template.New("template")
 	te.Parse(temp)
 	te.Execute(w, "hello world")
+}
+
+// chooseTemplate 解析多个模板
+func chooseTemplate(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+	t, _ := template.ParseFiles("template/helloTemplate.html", "template/helloTemplate2.html")
+	t.ExecuteTemplate(w, "helloTemplate.html", "chooseTemplate")
 }
