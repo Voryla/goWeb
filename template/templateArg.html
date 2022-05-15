@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- 变量的：使用$name 点（. ）是一个映射，而动作range 在迭代这个映射的时候，会将变量$key 和$value 分别初始化为当前被迭代映射元素的键和值。 -->
+{{ range $key, $value := . }}
+　The key is {{ $key }} and the value is {{ $value }}
+{{ end }}
+<!-- 模板中的管道 （pipeline）是多个有序地串联起来的参数、函数和方法。管道允许用户将一个参数的输出传递给下一个参数，而各个参数之间则使用| 分隔-->
+{{ 12.3456 | printf "%.2f" }}
+</body>
+</html>

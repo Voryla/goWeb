@@ -1,6 +1,8 @@
 package main
 
-import "goWeb/goTemplate"
+import (
+	"goWeb/goTemplate"
+)
 
 func main() {
 	// 原生http服务器
