@@ -1,0 +1,35 @@
++++++++++++功能性测试++++++++++++
+func TestXxx(*testing.B) { ... }
+1. 测试文件需要与被测试文件位于同一个包内。
+2. 测试函数需要以TestXxx 其中第二个单词要大写字母开头
+3. 通过 go test 命令对当前文件夹内的xx_test.go 进行测试。
+4. 通过 go test -v 获取更详细的信息。
+5. 通过 go test -cover 来获知测试用例对代码的覆盖率。
+6. 通过 t.Skip()函数可以跳过整个测试用例。
+7. 通过 go test -short 传入短暂标志,通过testing.Short()函数获取短暂标志(bool)，
+   当传入-short 时该函数返回true，否则返回false
+8. 开启并行测试：
+    1) 测试用例中需要调用t.Parallel()否则无法使用
+    2) go test -parallel 3 并行标志-parallel 而参数3表示我们希望最多并行3个测试用例
++++++++++++基准测试++++++++++++
+func BenchmarkXxx(*testing.B) { ... }
+1. go test -bench .  注意'.'符号也需要
+2. go test -count 3 标志重复执行3次测试用例
+实用小技巧：
+1. 通过-run来忽略功能测试，-run标志用于指定需要被执行的功能测试用例，
+   如果用户把一个不存在的功能测试名字用作-run标志的参数，那么所有功能测试都将被忽略
+   例如：go test -run x -bench .
+   由于我们的测试用例中不存在任何名字为x的功能测试用例，因此所有功能测试都不会执行，
+   只会执行基准测试
+2.为了保持代码的简洁性，我们可以把一些重复出现的测试代码以及其他测试夹具（fixture）设置在TestMain函数中
+  Go的testing包允许用户通过TestMain 函数在进行测试时执行相应的预设(setUp)操作或者拆卸(teardown)操作。
+  setUp 函数和tearDown 函数是为所有测试用例设置的， 它们在整个测试过程中只会被执行一次，
+  其中setUp 函数会在所有测试用例被执行之前执行，而tearDown 函数则会在所有测试用例都被执行完毕之后执行。
+  至于测试程序中的各个测试用例，则由testing.M 结构的Run 方法负责调用，该方法在执行之后将返回一个退出码（exit code），
+  用户可以把这个退出码传递给os.Exit 函数。
+  func TestMain(m *testing.M) {
+  　setUp() // 所有测试用例开始前执行
+  　code := m.Run() // 每个测试在Run函数中执行，并返回code
+  　tearDown()// 所有测试用例结束后执行
+  　os.Exit(code) // 可以将退出码传递给os.Exit函数
+  }

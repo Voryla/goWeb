@@ -7,7 +7,7 @@ import (
 	"strconv"
 )
 
-type post struct {
+type Post struct {
 	Id      int
 	Content string
 	Author  string
@@ -20,7 +20,7 @@ func goUseCsv() {
 		panic(err)
 	}
 	defer csvFile.Close()
-	allPosts := []post{
+	allPosts := []Post{
 		{Id: 1, Content: "Hello World1", Author: "Sau She1"},
 		{Id: 2, Content: "Hello World2", Author: "Sau She2"},
 		{Id: 3, Content: "Hello World3", Author: "Sau She3"},
@@ -61,10 +61,10 @@ func goUseCsv() {
 	if err != nil {
 		panic(err)
 	}
-	var posts []post
+	var posts []Post
 	for _, item := range record {
 		id, _ := strconv.ParseInt(item[0], 0, 0)
-		post := post{
+		post := Post{
 			Id:      int(id),
 			Content: item[1],
 			Author:  item[2],
